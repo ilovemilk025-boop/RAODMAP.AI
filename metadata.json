@@ -1,0 +1,6 @@
+{
+  "name": "LearnAnything45",
+  "description": "A cognitive science-based learning operating system that converts any skill into an immersive 45-day structured roadmap using Justin Sung principles.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
