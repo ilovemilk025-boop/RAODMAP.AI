@@ -132,6 +132,9 @@ app.post("/api/roadmap/day-detail", requireAI, async (req: Request, res: Respons
 
     Apply cognitive science principles:
     - **Learn (Retrieval Primer)**: Offer a brief conceptual summary explaining the deep 'why' and mental model. Provide 2 highly engaging curated self-study resource suggestions (e.g., specific search topics or book concepts) that force them to map relationships.
+      - For each resource, you MUST provide a real, highly useful clickable URL.
+      - The URL should lead to authoritative research sites (e.g., specific Wikipedia article URL or special research search URL like "https://en.wikipedia.org/wiki/Special:Search?search=Search+Query", a Google Scholar search URL like "https://scholar.google.com/scholar?q=Search+Query", a YouTube video search query like "https://www.youtube.com/results?search_query=Search+Query", or reference docs like Stanford Encyclopedia of Philosophy, MDN Web Docs, etc. based on the specific concept).
+      - Ensure the URL query string is correctly encoded and relevant to "${dayTitle}". Never output fake or placeholder URLs. 
     - **Compress (Concept Compression)**: Give a highly engaging prompt for the user to write their own 3-sentence summary that forces them to integrate multiple files of information.
     - **Compile (Active Mapping)**: Describe an active task that cannot be done passively (e.g. constructing an analogy, drawing a relationship node map, or testing a boundary condition).
     - **Consolidate (Self-Directed Recall)**: Provide 3 high-yield active recall flashcard questions. Each question must have a precise hidden benchmark answer.
@@ -154,11 +157,12 @@ app.post("/api/roadmap/day-detail", requireAI, async (req: Request, res: Respons
               type: Type.ARRAY,
               items: {
                 type: Type.OBJECT,
-                required: ["type", "title", "actionPrompt"],
+                required: ["type", "title", "actionPrompt", "url"],
                 properties: {
                   type: { type: Type.STRING, description: "Video, Article, Book Chapter, or Experiment" },
                   title: { type: Type.STRING },
-                  actionPrompt: { type: Type.STRING, description: "What specific relationship the user must look for while researching this resource." }
+                  actionPrompt: { type: Type.STRING, description: "What specific relationship the user must look for while researching this resource." },
+                  url: { type: Type.STRING, description: "A valid, real absolute HTTPS URL (Wikipedia, Google Scholar, YouTube Search, etc.) to investigate the topic." }
                 }
               }
             },

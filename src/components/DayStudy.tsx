@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { DayDetail, DayOutline, UserStats } from "../types";
-import { ArrowLeft, BookOpen, Brain, Sparkles, ClipboardCheck, Dumbbell, PlayCircle, Loader2, RefreshCw, CheckCircle, Check, HelpCircle } from "lucide-react";
+import { ArrowLeft, BookOpen, Brain, Sparkles, ClipboardCheck, Dumbbell, PlayCircle, Loader2, RefreshCw, CheckCircle, Check, HelpCircle, ExternalLink } from "lucide-react";
 
 interface DayStudyProps {
   dayNumber: number;
@@ -82,12 +82,23 @@ export default function DayStudy({ dayNumber, dayOutline, userStats, skillName, 
         
         // Dynamic client-side fallback
         setTimeout(() => {
+          const query = encodeURIComponent(`${skillName} ${dayOutline.title}`);
           setDetail({
             dayNumber,
             theorySummary: `Understand the high-level semantic connection behind ${dayOutline.title}. In cognitive processing, mastering any skill requires structuring mental templates first. Instead of trying to memorize facts separately, connect how elements interact inside the dynamic environment.`,
             resources: [
-              { type: "Video tutorial", title: `${dayOutline.title} Masterclass`, actionPrompt: "Analyze how individual variables triggers or overrides the system state." },
-              { type: "Whitepaper / Document", title: `Synthesizing ${dayOutline.title}`, actionPrompt: "Outline three boundary limitations where standard heuristics break down." }
+              { 
+                type: "Video tutorial", 
+                title: `${dayOutline.title} Masterclass`, 
+                actionPrompt: "Analyze how individual variables triggers or overrides the system state.",
+                url: `https://www.youtube.com/results?search_query=${query}+educational`
+              },
+              { 
+                type: "Whitepaper / Document", 
+                title: `Synthesizing ${dayOutline.title}`, 
+                actionPrompt: "Outline three boundary limitations where standard heuristics break down.",
+                url: `https://scholar.google.com/scholar?q=${query}`
+              }
             ],
             compressPrompt: `Draft a dense three-sentence compression explaining how ${dayOutline.title} functions systemic-level. Do not use generic buzzwords.`,
             compileActivity: {
@@ -239,18 +250,31 @@ export default function DayStudy({ dayNumber, dayOutline, userStats, skillName, 
 
             <div className="space-y-3 pt-2">
               <h4 className="text-xs font-extrabold uppercase tracking-widest text-white/50">Guided Self-Study Anchors</h4>
-              <div className="grid grid-cols-1 gap-2.5">
+              <div className="grid grid-cols-1 gap-3">
                 {detail?.resources.map((res, idx) => (
-                  <div key={idx} className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-start gap-3 hover:bg-white/10 transition-all">
-                    <PlayCircle className="w-5 h-5 text-blue-400 shrink-0 mt-0.5" />
-                    <div>
-                      <span className="text-[10px] uppercase tracking-widest text-blue-400 font-bold">{res.type}</span>
-                      <h5 className="font-extrabold text-xs text-white leading-snug">{res.title}</h5>
-                      <p className="text-white/40 text-[11px] mt-1 leading-relaxed italic">
+                  <a
+                    key={idx}
+                    href={res.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-start gap-4 hover:bg-white/10 hover:border-blue-500/30 active:scale-[0.99] transition-all group relative cursor-pointer"
+                  >
+                    <div className="p-3 bg-blue-500/10 rounded-xl text-blue-400 group-hover:bg-blue-500/20 transition-all shrink-0">
+                      <ExternalLink className="w-5 h-5" />
+                    </div>
+                    <div className="space-y-1 flex-1 pr-4">
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-[10px] uppercase tracking-widest text-blue-400 font-bold">{res.type}</span>
+                        <span className="text-[9px] bg-blue-500/10 text-blue-300 px-1.5 py-0.5 rounded font-mono flex items-center gap-1">
+                          Research Source ↗
+                        </span>
+                      </div>
+                      <h5 className="font-extrabold text-xs text-white leading-snug group-hover:text-blue-300 transition-colors">{res.title}</h5>
+                      <p className="text-white/40 text-[11px] leading-relaxed italic">
                         <strong>Relational Quest:</strong> {res.actionPrompt}
                       </p>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>

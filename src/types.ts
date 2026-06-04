@@ -31,6 +31,7 @@ export interface DayDetail {
     type: string;
     title: string;
     actionPrompt: string;
+    url: string;
   }[];
   compressPrompt: string;
   compileActivity: {
